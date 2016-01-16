@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.start(client, viewAction);
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
