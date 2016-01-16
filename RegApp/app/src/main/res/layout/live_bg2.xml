@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selected" android:oneshot="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        android:drawable="@mipmap/fframe01"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe02"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe03"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe04"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe05"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe06"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe07"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe08"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe09"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe10"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe11"
+        android:duration="300"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe12"
+        android:duration="300"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe13"
+        android:duration="300"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+    <item
+        android:drawable="@mipmap/fframe14"
+        android:duration="300"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+
+
+
+
+
+</animation-list>
