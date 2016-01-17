@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.github.suragnair.regapp.MainActivity">
+    <ImageView
+        android:id="@+id/IVloadinganimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="COP290 Team Registration"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Team Name"
+        android:ems="10"
+        android:id="@+id/teamName"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Member 1 Name"
+        android:ems="10"
+        android:id="@+id/member1Name"
+        android:layout_below="@+id/teamName"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Member 1 Entry Number"
+        android:ems="10"
+        android:id="@+id/member1EntryNumber"
+        android:layout_below="@+id/member1Name"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Member 2 Name"
+        android:ems="10"
+        android:id="@+id/member2Name"
+        android:layout_below="@+id/member1EntryNumber"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Member 2 Entry Number"
+        android:ems="10"
+        android:id="@+id/member2EntryNumber"
+        android:layout_below="@+id/member2Name"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/button"
+        android:layout_below="@+id/member2EntryNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:onClick="submit_button" />
+
+    <!-- android:shadowColor="#7F000000"
+     android:shadowDx="1"
+     android:shadowDy="1"
+     android:shadowRadius="2"-->
+
+
+
+    <!--android:background="@layout/text_shadow"-->
+</RelativeLayout>

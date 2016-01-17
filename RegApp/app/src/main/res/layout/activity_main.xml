@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.github.suragnair.regapp.MainActivity">
-
-<<<<<<< HEAD
     <ImageView
         android:id="@+id/IVloadinganimation"
         android:layout_width="match_parent"
@@ -15,28 +13,44 @@
         android:adjustViewBounds="true"
         />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:text="Password"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:background="@layout/text_shadow"
-        android:layout_marginTop="42dp"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:layout_below="@+id/editText2"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="COP290 Team Registration"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp" />
+        android:layout_marginTop="54dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Number of Team Members"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:id="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="two_membered_team_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:id="@+id/button3"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:onClick="three_membered_team_button" />
+
     <!-- android:shadowColor="#7F000000"
      android:shadowDx="1"
      android:shadowDy="1"
@@ -45,23 +59,4 @@
 
 
         <!--android:background="@layout/text_shadow"-->
-
-
-=======
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:id="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:onClick="onClick" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_input"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true" />
->>>>>>> 59ec5b547779ce7bcdd121e9845260c1cffcdfb3
 </RelativeLayout>
