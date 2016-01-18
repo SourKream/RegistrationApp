@@ -103,7 +103,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         BranchCode_EntryNumber1 = BranchCode_EntryNumber1.toUpperCase();
         BranchCode_EntryNumber2 = BranchCode_EntryNumber2.toUpperCase();
 
-        String[] BranchCodes= {"CH1","CS1","CE1","EE1","EE2","ME1","ME2","PH1","TT1","BE5","CH7",
+        String[] BranchCodes= {"CH1","CS1","CE1","EE1","EE2","EE3","ME1","ME2","PH1","TT1","BE5","CH7",
                 "CS5","EE5","MT5","AMX","CEX","CYS","MAS","PHS","SMF","SMT","SMN","JDS","AME",
                 "AMD","CHE","CYM","CEG","CEU","CES","CEW","CET","CEC","CEV","CEP","MCS","EEE",
                 "EET","EEA","EEN","EEP","EES","MED","MEE","MEP","MET","PHA","PHM","TTF","TTE",
