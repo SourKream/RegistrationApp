@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +48,8 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
     private EditText name3Field;
     private EditText entry3Field;
 
+    private ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,8 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
         name3Field = (EditText) findViewById(R.id.name3Field);
         entry3Field = (EditText) findViewById(R.id.entry3Field);
 
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+
         //Setting live background
         ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
         ivLoader.setBackgroundResource(R.layout.live_bg);
@@ -70,6 +77,8 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
 
     public void submit_button2(View view)
     {
+        spinner.setVisibility(View.VISIBLE);
+
         // Extracting Text From EditText
         final String teamname = teamnameField.getText().toString();
         final String name1 = name1Field.getText().toString();
@@ -117,21 +126,23 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
             ERROR_FLAG = true;
         }
 
-        if (ERROR_FLAG)
+        if (ERROR_FLAG) {
+            spinner.setVisibility(View.GONE);
             return;
-
+        }
 
         //SEND THE REQUEST TO SERVER
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ServerURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        spinner.setVisibility(View.GONE);
                         responseReceived(response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.GONE);
                     }
                 }) {
 
@@ -156,6 +167,7 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
     public void responseReceived(String response)
     {
         Toast.makeText(ThreeMemberedTeamActivity.this, response, Toast.LENGTH_SHORT).show();
+
     }
 
     private boolean isValidEntryNo (String entryNo)
