@@ -14,199 +14,177 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 
 public class TwoMemberedTeamActivity extends AppCompatActivity {
+
+    private static final String ServerURL = "http://agni.iitd.ernet.in/cop290/assign0/register/";
+
+    public static final String KEY_TEAMNAME = "teamname";
+    public static final String KEY_ENTRY1 = "entry1";
+    public static final String KEY_NAME1 = "name1";
+    public static final String KEY_ENTRY2 = "entry2";
+    public static final String KEY_NAME2 = "name2";
+
+    private EditText teamnameField;
+    private EditText name1Field;
+    private EditText entry1Field;
+    private EditText name2Field;
+    private EditText entry2Field;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.two_membered_team);
 
-        //Setting live background
+        // Linking EditText
+        teamnameField = (EditText) findViewById(R.id.teamnameField);
+        name1Field = (EditText) findViewById(R.id.name1Field);
+        entry1Field = (EditText) findViewById(R.id.entry1Field);
+        name2Field = (EditText) findViewById(R.id.name2Field);
+        entry2Field = (EditText) findViewById(R.id.entry2Field);
 
+        //Setting live background
         ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
         ivLoader.setBackgroundResource(R.layout.live_bg);
 
         AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
         frameAnimation.start();
-
-
     }
+
     public void submit_button(View view)
     {
-        EditText editText_teamName = (EditText) findViewById(R.id.teamName);
-        EditText editText_member1Name = (EditText) findViewById(R.id.member1Name);
-        EditText editText_member1EntryNumber = (EditText) findViewById(R.id.member1EntryNumber);
-        EditText editText_member2Name = (EditText) findViewById(R.id.member2Name);
-        EditText editText_member2EntryNumber = (EditText) findViewById(R.id.member2EntryNumber);
-        String teamName = editText_teamName.getText().toString();
-        String member1Name = editText_member1Name.getText().toString();
-        String member1EntryNumber = editText_member1EntryNumber.getText().toString();
-        String member2Name = editText_member2Name.getText().toString();
-        String member2EntryNumber = editText_member2EntryNumber.getText().toString();
+        // Extracting Text From EditText
+        final String teamname = teamnameField.getText().toString();
+        final String name1 = name1Field.getText().toString();
+        final String entry1 = entry1Field.getText().toString();
+        final String name2 = name2Field.getText().toString();
+        final String entry2 = entry2Field.getText().toString();
 
-        //Check for Empty Text-Field
-        if(teamName.matches(""))
+        boolean ERROR_FLAG = false;
+
+        if(teamname.matches(""))
         {
-            editText_teamName.setError("Enter Team Name");
-            return;
+            teamnameField.setError("Enter Team Name");
+            ERROR_FLAG = true;
         }
-        if(member1Name.matches(""))
+        if(name1.matches(""))
         {
-            editText_member1Name.setError("Enter Name");
-            return;
+            name1Field.setError("Enter Name");
+            ERROR_FLAG = true;
         }
-        if(member1EntryNumber.matches(""))
+        if(name2.matches(""))
         {
-            editText_member1EntryNumber.setError("Enter Entry Number");
-            return;
+            name2Field.setError("Enter Name");
+            ERROR_FLAG = true;
         }
-        if(member2Name.matches(""))
+        if(!isValidEntryNo(entry1))
         {
-            editText_member2Name.setError("Enter Name");
-            return;
+            entry1Field.setError("Invalid Entry No");
+            ERROR_FLAG = true;
         }
-        if(member2EntryNumber.matches(""))
+        if(!isValidEntryNo(entry2))
         {
-            editText_member2EntryNumber.setError("Enter Entry Number");
-            return;
+            entry2Field.setError("Invalid Entry No");
+            ERROR_FLAG = true;
         }
 
-        //Checks for valid entry number
-
-        int Entry1_Length = member1EntryNumber.length();
-        int Entry2_Length = member2EntryNumber.length();
-
-        //Checking Length of entry number
-
-        if((Entry1_Length!=11))
-        {
-            editText_member1EntryNumber.setError("Invalid Entry Number");
+        if (ERROR_FLAG) {
             return;
         }
 
-        if((Entry2_Length!=11))
-        {
-            editText_member2EntryNumber.setError("Invalid Entry Number");
-            return;
-        }
-
-        String Year_EntryNumber1 = member1EntryNumber.substring(0,4);
-        String Year_EntryNumber2 = member2EntryNumber.substring(0,4);
-        String BranchCode_EntryNumber1 = member1EntryNumber.substring(4,7);
-        String BranchCode_EntryNumber2 = member2EntryNumber.substring(4,7);
-        String Number_EntryNumber1 = member1EntryNumber.substring(7,11);
-        String Number_EntryNumber2 = member2EntryNumber.substring(7,11);
-
-        String[] Year = {"2010","2011","2012","2013","2014"};
-
-        BranchCode_EntryNumber1 = BranchCode_EntryNumber1.toUpperCase();
-        BranchCode_EntryNumber2 = BranchCode_EntryNumber2.toUpperCase();
-
-        String[] BranchCodes= {"CH1","CS1","CE1","EE1","EE2","EE3","ME1","ME2","PH1","TT1","BE5","CH7",
-                "CS5","EE5","MT5","AMX","CEX","CYS","MAS","PHS","SMF","SMT","SMN","JDS","AME",
-                "AMD","CHE","CYM","CEG","CEU","CES","CEW","CET","CEC","CEV","CEP","MCS","EEE",
-                "EET","EEA","EEN","EEP","EES","MED","MEE","MEP","MET","PHA","PHM","TTF","TTE",
-                "CRF","AST","JCA","JES","JEN","JIT","JID","JOP","JPT","JTM","JVL","AMY","BSY",
-                "BEY","CHY","CEY","CSY","EEY","MEY","SIY"};
-
-        int counter1 = 0;
-        int counter2 = 0;
-
-        //Check for valid year
-
-        for(int i = 0;i<5;i++)
-        {
-            if(Year_EntryNumber1.matches(Year[i]))
-            {
-                counter1++;
+        //SEND THE REQUEST TO SERVER
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ServerURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        responseReceived(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
             }
-            if(Year_EntryNumber2.matches(Year[i]))
-            {
-                counter2++;
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(KEY_TEAMNAME,teamname);
+                params.put(KEY_ENTRY1,entry1);
+                params.put(KEY_NAME1,name1);
+                params.put(KEY_ENTRY2,entry2);
+                params.put(KEY_NAME2,name2);
+                return params;
             }
-        }
+        };
 
-        if(counter1==0)
-        {
-            editText_member1EntryNumber.setError("Invalid Entry Number");
-            return;
-        }
-
-        if(counter2==0)
-        {
-            editText_member2EntryNumber.setError("Invalid Entry Number");
-            return;
-        }
-
-        counter1 = 0;
-        counter2 = 0;
-
-        //Check for valid branch code
-
-        for(int i = 0; i< BranchCodes.length; i++)
-        {
-            if(BranchCode_EntryNumber1.matches(BranchCodes[i]))
-            {
-                counter1++;
-                if(counter2 == 1)
-                    break;
-            }
-            if(BranchCode_EntryNumber2.matches(BranchCodes[i]))
-            {
-                counter2++;
-                if(counter1 == 1)
-                    break;
-            }
-        }
-
-        if(counter1==0)
-        {
-            editText_member1EntryNumber.setError("Invalid Entry Number");
-            return;
-        }
-
-        if(counter2==0)
-        {
-            editText_member2EntryNumber.setError("Invalid Entry Number");
-            return;
-        }
-
-        //Check if Serial Number is integer or not
-
-        for(int i = 0;i < 4;i++)
-        {
-            char ch1 = Number_EntryNumber1.charAt(i);
-            char ch2 = Number_EntryNumber2.charAt(i);
-            if(ch1 > '9' || ch1 < '0')
-            {
-                editText_member1EntryNumber.setError("Invalid Entry Number");
-                return;
-            }
-            if(ch2 > '9' || ch2 < '0')
-            {
-                editText_member2EntryNumber.setError("Invalid Entry Number");
-                return;
-            }
-        }
-
-        //Message Display if there is no error
-
-        String message = "Nice Team" + " " + teamName;
-
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-        //TO DO : SEND THE REQUEST TO SERVER
-
-
-        //After Successful Registration Going back to home screen
-
-        Intent intent = new Intent(TwoMemberedTeamActivity.this, MainActivity.class);
-        startActivity(intent);
-
-
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
+    public void responseReceived(String response)
+    {
+        Toast.makeText(TwoMemberedTeamActivity.this, response, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isValidEntryNo (String entryNo)
+    {
+        //CHECKS FOR VALID ENTRY NUMBER
+        if (entryNo.length()!=11)
+            return false;
+
+        int year, serialNo;
+        String dept = entryNo.substring(4, 7).toUpperCase();
+
+        try {
+            year = Integer.parseInt(entryNo.substring(0, 4));
+            serialNo = Integer.parseInt((entryNo.substring(7, 11)));
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+
+        if ((year>2015)||(year<2000))
+            return false;
+
+        Set<String> allDepts = new HashSet<String>();
+        allDepts.add("BB1");
+        allDepts.add("BB5");
+        allDepts.add("CH1");
+        allDepts.add("CH7");
+        allDepts.add("CS1");
+        allDepts.add("CS5");
+        allDepts.add("CE1");
+        allDepts.add("EE1");
+        allDepts.add("EE3");
+        allDepts.add("ME1");
+        allDepts.add("ME2");
+        allDepts.add("PH1");
+        allDepts.add("MT1");
+        allDepts.add("MT5");
+        allDepts.add("MT6");
+        allDepts.add("TT1");
+        allDepts.add("CSZ");
+        allDepts.add("MCS");
+
+        if(!allDepts.contains(dept))
+            return false;
+
+        if ((serialNo<1)||(serialNo>9999))
+            return false;
+
+        return true;
+    }
 
 }
 

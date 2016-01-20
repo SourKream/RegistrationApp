@@ -29,10 +29,10 @@
         android:inputType="textPersonName"
         android:hint="Team Name"
         android:ems="10"
-        android:id="@+id/teamName"
+        android:id="@+id/teamnameField"
+        android:layout_marginTop="32dp"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -40,8 +40,8 @@
         android:inputType="textPersonName"
         android:hint="Member 1 Name"
         android:ems="10"
-        android:id="@+id/member1Name"
-        android:layout_below="@+id/teamName"
+        android:id="@+id/name1Field"
+        android:layout_below="@+id/teamnameField"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -50,8 +50,8 @@
         android:inputType="textPersonName"
         android:hint="Member 1 Entry Number"
         android:ems="10"
-        android:id="@+id/member1EntryNumber"
-        android:layout_below="@+id/member1Name"
+        android:id="@+id/entry1Field"
+        android:layout_below="@+id/name1Field"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -60,8 +60,8 @@
         android:inputType="textPersonName"
         android:hint="Member 2 Name"
         android:ems="10"
-        android:id="@+id/member2Name"
-        android:layout_below="@+id/member1EntryNumber"
+        android:id="@+id/name2Field"
+        android:layout_below="@+id/entry1Field"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -70,8 +70,8 @@
         android:inputType="textPersonName"
         android:hint="Member 2 Entry Number"
         android:ems="10"
-        android:id="@+id/member2EntryNumber"
-        android:layout_below="@+id/member2Name"
+        android:id="@+id/entry2Field"
+        android:layout_below="@+id/name2Field"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/button"
-        android:layout_below="@+id/member2EntryNumber"
+        android:layout_below="@+id/entry2Field"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
         android:onClick="submit_button" />
