@@ -49,6 +49,7 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
     private EditText entry3Field;
 
     private ProgressBar spinner;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
         entry3Field = (EditText) findViewById(R.id.entry3Field);
 
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+        submitButton = (Button) findViewById(R.id.submitButton);
 
         //Setting live background
         ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
@@ -78,6 +81,7 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
     public void submit_button2(View view)
     {
         spinner.setVisibility(View.VISIBLE);
+        submitButton.setClickable(false);
 
         // Extracting Text From EditText
         final String teamname = teamnameField.getText().toString();
@@ -128,6 +132,7 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
 
         if (ERROR_FLAG) {
             spinner.setVisibility(View.GONE);
+            submitButton.setClickable(true);
             return;
         }
 
@@ -137,12 +142,14 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         spinner.setVisibility(View.GONE);
+                        submitButton.setClickable(true);
                         responseReceived(response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         spinner.setVisibility(View.GONE);
+                        submitButton.setClickable(true);
                     }
                 }) {
 
