@@ -84,6 +84,24 @@
         android:layout_marginTop="49dp"
         android:onClick="submit_button" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name1SuggestionsList"
+        android:layout_below="@+id/name1Field"
+        android:layout_alignEnd="@+id/name1Field"
+        android:layout_alignStart="@+id/name1Field"
+        android:visibility="gone"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name2SuggestionsList"
+        android:layout_below="@+id/name2Field"
+        android:layout_alignEnd="@+id/name2Field"
+        android:layout_alignStart="@+id/name2Field"
+        android:visibility="gone"/>
+
     <!-- android:shadowColor="#7F000000"
      android:shadowDx="1"
      android:shadowDy="1"

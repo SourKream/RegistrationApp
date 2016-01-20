@@ -6,12 +6,17 @@ import android.graphics.drawable.AnimationDrawable;
 import android.service.wallpaper.WallpaperService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,8 +26,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,6 +55,16 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
     private EditText name2Field;
     private EditText entry2Field;
 
+    private ListView name1SuggestionsListView;
+    private ListView name2SuggestionsListView;
+    private ArrayAdapter name1SuggestionsListAdapter;
+    private ArrayAdapter name2SuggestionsListAdapter;
+    private List<String> name1SuggestionsList = new ArrayList<String>();
+    private List<String> name2SuggestionsList = new ArrayList<String>();
+
+    private List<String> StudentNameList = new ArrayList<String>();
+    private List<String> StudentEntrynoList = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +83,85 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
 
         AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
         frameAnimation.start();
+
+        //Initialising List View
+        name1SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name1SuggestionsList);
+        name1SuggestionsListView = (ListView) findViewById(R.id.name1SuggestionsList);
+        name1SuggestionsListView.setAdapter(name1SuggestionsListAdapter);
+        name2SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name2SuggestionsList);
+        name2SuggestionsListView = (ListView) findViewById(R.id.name2SuggestionsList);
+        name2SuggestionsListView.setAdapter(name2SuggestionsListAdapter);
+
+        //EditText On Focus Listener
+        name1Field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    name1SuggestionsListView.setVisibility(ListView.VISIBLE);
+                } else {
+                    name1SuggestionsListView.setVisibility(ListView.GONE);
+                }
+            }
+        });
+        name2Field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    name2SuggestionsListView.setVisibility(ListView.VISIBLE);
+                } else {
+                    name2SuggestionsListView.setVisibility(ListView.GONE);
+                }
+            }
+        });
+
+        //TextChange Listener for name1Field
+        name1Field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                name1SuggestionsList.clear();
+                if(s.length()>2) {
+                    name1SuggestionsList.addAll(suggestStudents(s.toString()));
+                    while (name1SuggestionsList.size() > 3)
+                        name1SuggestionsList.remove(name1SuggestionsList.size() - 1);
+                }
+                name1SuggestionsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        name2Field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                name2SuggestionsList.clear();
+                if(s.length()>2){
+                    name2SuggestionsList.addAll(suggestStudents(s.toString()));
+                    while (name2SuggestionsList.size() > 3)
+                        name2SuggestionsList.remove(name2SuggestionsList.size() - 1);
+                }
+                name2SuggestionsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //Load EntryNO Database
+        loadEntryNoDataFromTextFile();
     }
 
     public void submit_button(View view)
@@ -185,6 +286,33 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
 
         return true;
     }
+
+    private void loadEntryNoDataFromTextFile() {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getBaseContext().getResources().openRawResource(R.raw.entrydata)));
+        String line = null;
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                line = line.trim();
+                if (line.length() == 0)
+                    continue;
+                StudentEntrynoList.add(line.substring(0, 11));
+                StudentNameList.add(line.substring(11, line.length()).trim());
+            }
+        } catch (IOException e) {
+
+        }
+    }
+
+    private List<String> suggestStudents (String partString)
+    {
+        List<String> suggestions = new ArrayList<String>();
+        for (String name : StudentNameList){
+            if(name.contains(partString))
+                suggestions.add(name);
+        }
+        return suggestions;
+    }
+
 
 }
 
