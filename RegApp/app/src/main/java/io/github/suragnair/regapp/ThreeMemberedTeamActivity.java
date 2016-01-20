@@ -189,30 +189,25 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
         if ((year>2015)||(year<2000))
             return false;
 
-        /*
-        String[] BranchCodes= {"CH1","CS1","CE1","EE1","EE2","ME1","ME2","PH1","TT1","BE5","CH7",
-                "CS5","EE5","MT5","AMX","CEX","CYS","MAS","PHS","SMF","SMT","SMN","JDS","AME",
-                "AMD","CHE","CYM","CEG","CEU","CES","CEW","CET","CEC","CEV","CEP","MCS","EEE",
-                "EET","EEA","EEN","EEP","EES","MED","MEE","MEP","MET","PHA","PHM","TTF","TTE",
-                "CRF","AST","JCA","JES","JEN","JIT","JID","JOP","JPT","JTM","JVL","AMY","BSY",
-                "BEY","CHY","CEY","CSY","EEY","MEY","SIY"};
-        */
-
         Set<String> allDepts = new HashSet<String>();
         allDepts.add("BB1");
+        allDepts.add("BB5");
         allDepts.add("CH1");
+        allDepts.add("CH7");
         allDepts.add("CS1");
+        allDepts.add("CS5");
         allDepts.add("CE1");
         allDepts.add("EE1");
         allDepts.add("EE3");
-        allDepts.add("MT1");
         allDepts.add("ME1");
         allDepts.add("ME2");
         allDepts.add("PH1");
-        allDepts.add("BB5");
-        allDepts.add("CH7");
-        allDepts.add("CS5");
+        allDepts.add("MT1");
+        allDepts.add("MT5");
         allDepts.add("MT6");
+        allDepts.add("TT1");
+        allDepts.add("CSZ");
+        allDepts.add("MCS");
 
         if(!allDepts.contains(dept))
             return false;
