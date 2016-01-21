@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,7 +115,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             }
         });
 
-        //TextChange Listener for name1Field
+        //TextChange Listener for Name Fields
         name1Field.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,7 +147,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 name2SuggestionsList.clear();
-                if(s.length()>2){
+                if (s.length() > 2) {
                     name2SuggestionsList.addAll(suggestStudents(s.toString()));
                     while (name2SuggestionsList.size() > 3)
                         name2SuggestionsList.remove(name2SuggestionsList.size() - 1);
@@ -157,6 +158,24 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        //OnClick Listener for ListViews
+        name1SuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                name1Field.clearFocus();
+                entry1Field.setText(StudentEntrynoList.get(StudentNameList.indexOf(name1SuggestionsList.get(position))));
+                name1Field.setText(name1SuggestionsList.get(position));
+            }
+        });
+        name2SuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                name2Field.clearFocus();
+                entry2Field.setText(StudentEntrynoList.get(StudentNameList.indexOf(name2SuggestionsList.get(position))));
+                name2Field.setText(name2SuggestionsList.get(position));
             }
         });
 
@@ -307,7 +326,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
     {
         List<String> suggestions = new ArrayList<String>();
         for (String name : StudentNameList){
-            if(name.contains(partString))
+            if(name.toLowerCase().contains(partString.toLowerCase()))
                 suggestions.add(name);
         }
         return suggestions;
