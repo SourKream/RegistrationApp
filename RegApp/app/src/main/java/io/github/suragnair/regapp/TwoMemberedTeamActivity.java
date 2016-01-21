@@ -49,6 +49,10 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
     public static final String KEY_NAME1 = "name1";
     public static final String KEY_ENTRY2 = "entry2";
     public static final String KEY_NAME2 = "name2";
+    public static final String KEY_ENTRY3 = "entry3";
+    public static final String KEY_NAME3 = "name3";
+
+    private RequestQueue requestQueue;
 
     private EditText teamnameField;
     private EditText name1Field;
@@ -78,12 +82,15 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         name2Field = (EditText) findViewById(R.id.name2Field);
         entry2Field = (EditText) findViewById(R.id.entry2Field);
 
-        //Setting live background
-        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
-        ivLoader.setBackgroundResource(R.layout.live_bg);
+        //Initialising Request Queue
+        requestQueue = Volley.newRequestQueue(this);
 
-        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
-        frameAnimation.start();
+        //Setting live background
+//        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
+//        ivLoader.setBackgroundResource(R.layout.live_bg);
+
+//        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
+//        frameAnimation.start();
 
         //Initialising List View
         name1SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name1SuggestionsList);
@@ -245,11 +252,12 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
                 params.put(KEY_NAME1,name1);
                 params.put(KEY_ENTRY2,entry2);
                 params.put(KEY_NAME2,name2);
+                params.put(KEY_ENTRY3,"");
+                params.put(KEY_NAME3,"");
                 return params;
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 

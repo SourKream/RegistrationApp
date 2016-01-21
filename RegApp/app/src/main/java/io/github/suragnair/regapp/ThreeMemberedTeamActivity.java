@@ -51,6 +51,8 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private Button submitButton;
 
+    private RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +71,14 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         submitButton = (Button) findViewById(R.id.submitButton);
 
-        //Setting live background
-        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
-        ivLoader.setBackgroundResource(R.layout.live_bg);
+        requestQueue = Volley.newRequestQueue(this);
 
-        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
-        frameAnimation.start();
+        //Setting live background
+//        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
+//        ivLoader.setBackgroundResource(R.layout.live_bg);
+
+//        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
+//        frameAnimation.start();
     }
 
 
@@ -167,7 +171,6 @@ public class ThreeMemberedTeamActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 

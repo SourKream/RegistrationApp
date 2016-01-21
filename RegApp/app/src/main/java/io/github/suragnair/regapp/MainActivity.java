@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting live background
 
-        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
-        ivLoader.setBackgroundResource(R.layout.live_bg);
+//        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
+//        ivLoader.setBackgroundResource(R.layout.live_bg);
 
-        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
-        frameAnimation.start();
+//        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
+//        frameAnimation.start();
 
     }
 
