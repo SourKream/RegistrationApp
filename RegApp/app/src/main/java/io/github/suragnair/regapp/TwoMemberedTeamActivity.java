@@ -1,23 +1,15 @@
 package io.github.suragnair.regapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.service.wallpaper.WallpaperService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,10 +20,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,16 +49,19 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
     private EditText entry1Field;
     private EditText name2Field;
     private EditText entry2Field;
+    private EditText name3Field;
+    private EditText entry3Field;
 
-    private ListView name1SuggestionsListView;
-    private ListView name2SuggestionsListView;
-    private ArrayAdapter name1SuggestionsListAdapter;
-    private ArrayAdapter name2SuggestionsListAdapter;
     private List<String> name1SuggestionsList = new ArrayList<String>();
     private List<String> name2SuggestionsList = new ArrayList<String>();
+    private List<String> name3SuggestionsList = new ArrayList<String>();
 
     private List<String> StudentNameList = new ArrayList<String>();
     private List<String> StudentEntrynoList = new ArrayList<String>();
+
+    private Button addMemberButton;
+    private Button removeMemberButton;
+    private int noOfMembers = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,110 +74,30 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         entry1Field = (EditText) findViewById(R.id.entry1Field);
         name2Field = (EditText) findViewById(R.id.name2Field);
         entry2Field = (EditText) findViewById(R.id.entry2Field);
+        name3Field = (EditText) findViewById(R.id.name3Field);
+        entry3Field = (EditText) findViewById(R.id.entry3Field);
+
+        //Linking Buttons
+        addMemberButton = (Button) findViewById(R.id.addThirdMemberButton);
+        removeMemberButton = (Button) findViewById(R.id.removeThirdMemberButton);
+
+        //Initialising ListViews
+        ListView name1SuggestionsListView = (ListView) findViewById(R.id.name1SuggestionsList);
+        ListView name2SuggestionsListView = (ListView) findViewById(R.id.name2SuggestionsList);
+        ListView name3SuggestionsListView = (ListView) findViewById(R.id.name3SuggestionsList);
+
+        //Initialising Array Adapters
+        ArrayAdapter name1SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name1SuggestionsList);
+        ArrayAdapter name2SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name2SuggestionsList);
+        ArrayAdapter name3SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name3SuggestionsList);
+
+        // Set Listeners to EditTexts and ListViews
+        initialiseNameSuggestionsList(name1Field, entry1Field, name1SuggestionsListView, name1SuggestionsList, name1SuggestionsListAdapter);
+        initialiseNameSuggestionsList(name2Field, entry2Field, name2SuggestionsListView, name2SuggestionsList, name2SuggestionsListAdapter);
+        initialiseNameSuggestionsList(name3Field, entry3Field, name3SuggestionsListView, name3SuggestionsList, name3SuggestionsListAdapter);
 
         //Initialising Request Queue
         requestQueue = Volley.newRequestQueue(this);
-
-        //Setting live background
-//        ImageView ivLoader = (ImageView) findViewById(R.id.IVloadinganimation);
-//        ivLoader.setBackgroundResource(R.layout.live_bg);
-
-//        AnimationDrawable frameAnimation = (AnimationDrawable) ivLoader.getBackground();
-//        frameAnimation.start();
-
-        //Initialising List View
-        name1SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name1SuggestionsList);
-        name1SuggestionsListView = (ListView) findViewById(R.id.name1SuggestionsList);
-        name1SuggestionsListView.setAdapter(name1SuggestionsListAdapter);
-        name2SuggestionsListAdapter = new ArrayAdapter(this, R.layout.activity_listview, name2SuggestionsList);
-        name2SuggestionsListView = (ListView) findViewById(R.id.name2SuggestionsList);
-        name2SuggestionsListView.setAdapter(name2SuggestionsListAdapter);
-
-        //EditText On Focus Listener
-        name1Field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    name1SuggestionsListView.setVisibility(ListView.VISIBLE);
-                } else {
-                    name1SuggestionsListView.setVisibility(ListView.GONE);
-                }
-            }
-        });
-        name2Field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    name2SuggestionsListView.setVisibility(ListView.VISIBLE);
-                } else {
-                    name2SuggestionsListView.setVisibility(ListView.GONE);
-                }
-            }
-        });
-
-        //TextChange Listener for Name Fields
-        name1Field.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                name1SuggestionsList.clear();
-                if(s.length()>2) {
-                    name1SuggestionsList.addAll(suggestStudents(s.toString()));
-                    while (name1SuggestionsList.size() > 3)
-                        name1SuggestionsList.remove(name1SuggestionsList.size() - 1);
-                }
-                name1SuggestionsListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        name2Field.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                name2SuggestionsList.clear();
-                if (s.length() > 2) {
-                    name2SuggestionsList.addAll(suggestStudents(s.toString()));
-                    while (name2SuggestionsList.size() > 3)
-                        name2SuggestionsList.remove(name2SuggestionsList.size() - 1);
-                }
-                name2SuggestionsListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        //OnClick Listener for ListViews
-        name1SuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                name1Field.clearFocus();
-                entry1Field.setText(StudentEntrynoList.get(StudentNameList.indexOf(name1SuggestionsList.get(position))));
-                name1Field.setText(name1SuggestionsList.get(position));
-            }
-        });
-        name2SuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                name2Field.clearFocus();
-                entry2Field.setText(StudentEntrynoList.get(StudentNameList.indexOf(name2SuggestionsList.get(position))));
-                name2Field.setText(name2SuggestionsList.get(position));
-            }
-        });
 
         //Load EntryNO Database
         loadEntryNoDataFromTextFile();
@@ -198,6 +111,8 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         final String entry1 = entry1Field.getText().toString();
         final String name2 = name2Field.getText().toString();
         final String entry2 = entry2Field.getText().toString();
+        final String name3 = name3Field.getText().toString();
+        final String entry3 = entry3Field.getText().toString();
 
         boolean ERROR_FLAG = false;
 
@@ -227,6 +142,20 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             ERROR_FLAG = true;
         }
 
+        if (noOfMembers==3)
+        {
+            if(name3.matches(""))
+            {
+                name3Field.setError("Enter Name");
+                ERROR_FLAG = true;
+            }
+            if(!isValidEntryNo(entry3))
+            {
+                entry3Field.setError("Invalid Entry No");
+                ERROR_FLAG = true;
+            }
+        }
+
         if (ERROR_FLAG) {
             return;
         }
@@ -252,8 +181,8 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
                 params.put(KEY_NAME1,name1);
                 params.put(KEY_ENTRY2,entry2);
                 params.put(KEY_NAME2,name2);
-                params.put(KEY_ENTRY3,"");
-                params.put(KEY_NAME3,"");
+                params.put(KEY_ENTRY3,entry3);
+                params.put(KEY_NAME3,name3);
                 return params;
             }
         };
@@ -340,6 +269,82 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         return suggestions;
     }
 
+    public void addMemberClicked(View view) {
+        name3Field.setVisibility(View.VISIBLE);
+        entry3Field.setVisibility(View.VISIBLE);
+        removeMemberButton.setVisibility(View.VISIBLE);
+        addMemberButton.setVisibility(View.GONE);
+        noOfMembers = 3;
+    }
 
+    public void removeMemberClicked(View view) {
+        name3Field.setVisibility(View.GONE);
+        entry3Field.setVisibility(View.GONE);
+        removeMemberButton.setVisibility(View.GONE);
+        addMemberButton.setVisibility(View.VISIBLE);
+        noOfMembers = 2;
+        name3Field.setText("");
+        entry3Field.setText("");
+        name3Field.setError(null);
+        entry3Field.setError(null);
+    }
+
+    private void initialiseNameSuggestionsList (final EditText nameField,
+                                                final EditText entryField,
+                                                final ListView nameSuggestionsListView,
+                                                final List<String> nameSuggestionsList,
+                                                final ArrayAdapter nameSuggestionsListAdapter) {
+
+        // Assign Adapter to ListView
+        nameSuggestionsListView.setAdapter(nameSuggestionsListAdapter);
+
+        // Set OnFocusChangeListener to EditText to toggle ListView visibility
+        nameField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    nameSuggestionsListView.setVisibility(View.VISIBLE);
+                } else {
+                    nameSuggestionsListView.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Set TextChangeListener to EditText to repopulate ListView
+        nameField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                nameSuggestionsList.clear();
+                if (s.length() > 2) {
+                    nameSuggestionsList.addAll(suggestStudents(s.toString()));
+                    while (nameSuggestionsList.size() > 3)
+                        nameSuggestionsList.remove(nameSuggestionsList.size() - 1);
+                }
+                nameSuggestionsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // Set OnItemClickListener to ListView
+        nameSuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nameField.clearFocus();
+                entryField.setText(StudentEntrynoList.get(StudentNameList.indexOf(nameSuggestionsList.get(position))));
+                nameField.setText(nameSuggestionsList.get(position));
+                entryField.setError(null);
+            }
+        });
+    }
 }
+
 

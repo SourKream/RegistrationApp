@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">RegApp</string>
+    <string name="app_heading">COP290 Team Registration</string>
+    <string name="team_name">Team Name</string>
+    <string name="member_1_name">Member 1 Name</string>
+    <string name="member_1_entryno">Member 1 Entry Number</string>
+    <string name="member_2_name">Member 2 Name</string>
+    <string name="member_2_entryno">Member 2 Entry Number</string>
+    <string name="member_3_name">Member 3 Name</string>
+    <string name="member_3_entryno">Member 3 Entry Number</string>
+    <string name="submit">Submit</string>
 </resources>
