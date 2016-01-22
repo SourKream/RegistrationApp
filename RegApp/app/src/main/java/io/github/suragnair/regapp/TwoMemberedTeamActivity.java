@@ -52,12 +52,12 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
     private EditText name3Field;
     private EditText entry3Field;
 
-    private List<String> name1SuggestionsList = new ArrayList<String>();
-    private List<String> name2SuggestionsList = new ArrayList<String>();
-    private List<String> name3SuggestionsList = new ArrayList<String>();
+    private List<String> name1SuggestionsList = new ArrayList<>();
+    private List<String> name2SuggestionsList = new ArrayList<>();
+    private List<String> name3SuggestionsList = new ArrayList<>();
 
-    private List<String> StudentNameList = new ArrayList<String>();
-    private List<String> StudentEntrynoList = new ArrayList<String>();
+    private List<String> StudentNameList = new ArrayList<>();
+    private List<String> StudentEntrynoList = new ArrayList<>();
 
     private Button addMemberButton;
     private Button removeMemberButton;
@@ -175,7 +175,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put(KEY_TEAMNAME,teamname);
                 params.put(KEY_ENTRY1,entry1);
                 params.put(KEY_NAME1,name1);
@@ -214,7 +214,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         if ((year>2015)||(year<2000))
             return false;
 
-        Set<String> allDepts = new HashSet<String>();
+        Set<String> allDepts = new HashSet<>();
         allDepts.add("BB1");
         allDepts.add("BB5");
         allDepts.add("CH1");
@@ -234,13 +234,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         allDepts.add("CSZ");
         allDepts.add("MCS");
 
-        if(!allDepts.contains(dept))
-            return false;
-
-        if ((serialNo<1)||(serialNo>9999))
-            return false;
-
-        return true;
+        return allDepts.contains(dept)&&((serialNo>0)&&(serialNo<10000));
     }
 
     private void loadEntryNoDataFromTextFile() {
@@ -261,7 +255,7 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
 
     private List<String> suggestStudents (String partString)
     {
-        List<String> suggestions = new ArrayList<String>();
+        List<String> suggestions = new ArrayList<>();
         for (String name : StudentNameList){
             if(name.toLowerCase().contains(partString.toLowerCase()))
                 suggestions.add(name);
@@ -285,6 +279,23 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
         noOfMembers = 2;
         name3Field.setText("");
         entry3Field.setText("");
+        name3Field.setError(null);
+        entry3Field.setError(null);
+    }
+
+    public void clearButtonClicked(View view) {
+        teamnameField.setText("");
+        name1Field.setText("");
+        entry1Field.setText("");
+        name2Field.setText("");
+        entry2Field.setText("");
+        name3Field.setText("");
+        entry3Field.setText("");
+        teamnameField.setError(null);
+        name1Field.setError(null);
+        entry1Field.setError(null);
+        name2Field.setError(null);
+        entry2Field.setError(null);
         name3Field.setError(null);
         entry3Field.setError(null);
     }

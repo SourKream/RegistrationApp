@@ -9,4 +9,5 @@
     <string name="member_3_name">Member 3 Name</string>
     <string name="member_3_entryno">Member 3 Entry Number</string>
     <string name="submit">Submit</string>
+    <string name="clear">Clear</string>
 </resources>

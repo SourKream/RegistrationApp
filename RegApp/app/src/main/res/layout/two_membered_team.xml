@@ -120,16 +120,6 @@
         android:visibility="visible"
         android:onClick="addMemberClicked"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:id="@+id/button"
-        android:layout_below="@+id/entry2Field"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:onClick="submit_button" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -157,6 +147,24 @@
         android:layout_alignStart="@+id/name3Field"
         android:visibility="gone"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:id="@+id/button"
+        android:onClick="submit_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/entry2Field"
+        android:layout_marginBottom="44dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:id="@+id/clearButton"
+        android:layout_alignTop="@+id/button"
+        android:layout_alignStart="@+id/entry2Field"
+        android:onClick="clearButtonClicked"/>
 
     <!-- android:shadowColor="#7F000000"
      android:shadowDx="1"
