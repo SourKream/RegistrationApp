@@ -146,6 +146,11 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             entry2Field.setError("Invalid Entry No");
             ERROR_FLAG = true;
         }
+        if(entry2.equals(entry1))
+        {
+            entry2Field.setError("Repeated Entry No");
+            ERROR_FLAG = true;
+        }
 
         if (noOfMembers==3)
         {
@@ -157,6 +162,11 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
             if(!isValidEntryNo(entry3))
             {
                 entry3Field.setError("Invalid Entry No");
+                ERROR_FLAG = true;
+            }
+            if((entry3.equals(entry1))||(entry3.equals(entry2)))
+            {
+                entry3Field.setError("Repeated Entry No");
                 ERROR_FLAG = true;
             }
         }
