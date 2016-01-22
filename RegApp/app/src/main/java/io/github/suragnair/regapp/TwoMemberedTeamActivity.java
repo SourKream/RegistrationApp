@@ -1,5 +1,7 @@
 package io.github.suragnair.regapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -192,7 +197,36 @@ public class TwoMemberedTeamActivity extends AppCompatActivity {
 
     public void responseReceived(String response)
     {
-        Toast.makeText(TwoMemberedTeamActivity.this, response, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        JSONObject jsonResponse = null;
+        boolean RESPONSE_SUCCESS = false;
+
+        try {
+            jsonResponse = new JSONObject(response);
+            if (jsonResponse.getString("RESPONSE_MESSAGE").equals("Data not posted!"))
+                builder.setTitle("Oops!").setMessage("Something Went Wrong. Data not posted.");
+            else if (jsonResponse.getString("RESPONSE_MESSAGE").equals("Registration completed")) {
+                builder.setTitle("Congratulations").setMessage("Welcome to the course. Your team has been registered.");
+                RESPONSE_SUCCESS = true;
+            }
+            else if (jsonResponse.getString("RESPONSE_MESSAGE").equals("User already registered"))
+                builder.setTitle("Well That's Embarrassing!").setMessage("One or more member of your team is already registered.");
+            else
+                builder.setTitle("Unaccounted Response:").setMessage(response);
+        } catch (JSONException e) {
+            builder.setTitle("Server Gone Crazy").setMessage("Unexpected Response. Data received is not JSON.");
+        }
+
+        builder.setNeutralButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        if (RESPONSE_SUCCESS)
+            clearButtonClicked(null);
     }
 
     private boolean isValidEntryNo (String entryNo)
