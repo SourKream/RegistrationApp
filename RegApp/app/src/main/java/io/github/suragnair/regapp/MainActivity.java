@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
         // Assign Adapter to ListView
         nameSuggestionsListView.setAdapter(nameSuggestionsListAdapter);
 
-        // Set OnFocusChangeListener to EditText to toggle ListView visibility
+        // Set OnFocusChangeListener to Name EditText to toggle ListView visibility
         nameField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -410,6 +410,19 @@ public class MainActivity extends AppCompatActivity {
                 entryField.setText(StudentEntrynoList.get(StudentNameList.indexOf(nameSuggestionsList.get(position))));
                 nameField.setText(nameSuggestionsList.get(position));
                 entryField.setError(null);
+            }
+        });
+
+        // Set OnFocusChangeListener to Entry EditText to autofill Name
+        entryField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    String entryNo = entryField.getText().toString();
+                    if (isValidEntryNo(entryNo) && StudentEntrynoList.contains(entryNo.toLowerCase()) && nameField.getText().toString().equals("")) {
+                        nameField.setText(StudentNameList.get(StudentEntrynoList.indexOf(entryNo.toLowerCase())));
+                    }
+                }
             }
         });
     }
