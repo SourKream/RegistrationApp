@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -324,22 +325,43 @@ public class MainActivity extends AppCompatActivity {
 
     public void addMemberClicked(View view) {
 
-        //addMemberButton.setVisibility(View.GONE);
         if (isTwoMem) {
             name3Field.setVisibility(View.VISIBLE);
             entry3Field.setVisibility(View.VISIBLE);
-            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 200);
-            objectAnimatorButton.setDuration(500);
-            objectAnimatorButton.start();
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 250);
+            objectAnimatorButton.setDuration(500).start();
+            ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 0f, 1f);
+            fadeAnim1.setDuration(1000).start();
+            ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 0f, 1f);
+            fadeAnim2.setDuration(1000).start();
+
             addMemberButton.setText("-");
             noOfMembers = 3;
         }
         else {
-            entry3Field.setVisibility(View.GONE);
-            name3Field.setVisibility(View.GONE);
-            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 200);
-            objectAnimatorButton.setDuration(500);
-            objectAnimatorButton.start();
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 250, 0);
+            objectAnimatorButton.setDuration(500).start();
+            ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 1f, 0f);
+            fadeAnim1.setDuration(1000).start();
+            ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 1f, 0f);
+            fadeAnim2.setDuration(1000).start();
+            fadeAnim1.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {}
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    entry3Field.setVisibility(View.GONE);
+                    name3Field.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            });
+
             addMemberButton.setText("+");
             noOfMembers = 2;
         }
