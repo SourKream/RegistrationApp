@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg3"
     tools:context="io.github.suragnair.regapp.MainActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +22,8 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -120,6 +129,7 @@
         android:layout_below="@+id/name1Field"
         android:layout_alignEnd="@+id/name1Field"
         android:layout_alignStart="@+id/name1Field"
+        android:textColor="#000000"
         android:visibility="gone"/>
 
     <ListView
@@ -129,7 +139,8 @@
         android:layout_below="@+id/name2Field"
         android:layout_alignEnd="@+id/name2Field"
         android:layout_alignStart="@+id/name2Field"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:textFilterEnabled="false" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -148,7 +159,9 @@
         android:onClick="submitButtonClicked"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/entry2Field"
-        android:layout_marginBottom="44dp" />
+        android:layout_marginBottom="44dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
@@ -157,7 +170,9 @@
         android:id="@+id/clearButton"
         android:layout_alignTop="@+id/submitButton"
         android:layout_alignStart="@+id/entry2Field"
-        android:onClick="clearButtonClicked"/>
+        android:onClick="clearButtonClicked"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF" />
 
     <ProgressBar
         android:id="@+id/loadingIcon"

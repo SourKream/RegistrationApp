@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         name3Field = (EditText) findViewById(R.id.name3Field);
         entry3Field = (EditText) findViewById(R.id.entry3Field);
 
+        // Initialise Animations
+        final Animation animTranslate = AnimationUtils.loadAnimation(this, R.anim.add3rd);
+
         //Linking Buttons
         submitButton = (Button) findViewById(R.id.submitButton);
         addMemberButton = (Button) findViewById(R.id.addThirdMemberButton);
@@ -110,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Load EntryNO Database
         loadEntryNoDataFromTextFile();
+
     }
 
     public void submitButtonClicked(View view)
@@ -324,7 +330,8 @@ public class MainActivity extends AppCompatActivity {
         name3Field.setVisibility(View.VISIBLE);
         entry3Field.setVisibility(View.VISIBLE);
         removeMemberButton.setVisibility(View.VISIBLE);
-        addMemberButton.setVisibility(View.GONE);
+        //addMemberButton.setVisibility(View.GONE);
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.add3rd));
         noOfMembers = 3;
     }
 
