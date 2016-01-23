@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.animation.ObjectAnimator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -69,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private Button submitButton;
     private Button addMemberButton;
-    private Button removeMemberButton;
     private int noOfMembers = 2;
+
+    private boolean isTwoMem = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +86,9 @@ public class MainActivity extends AppCompatActivity {
         name3Field = (EditText) findViewById(R.id.name3Field);
         entry3Field = (EditText) findViewById(R.id.entry3Field);
 
-        // Initialise Animations
-        final Animation animTranslate = AnimationUtils.loadAnimation(this, R.anim.add3rd);
-
         //Linking Buttons
         submitButton = (Button) findViewById(R.id.submitButton);
         addMemberButton = (Button) findViewById(R.id.addThirdMemberButton);
-        removeMemberButton = (Button) findViewById(R.id.removeThirdMemberButton);
         spinner = (ProgressBar)findViewById(R.id.loadingIcon);
 
         //Initialising ListViews
@@ -327,24 +323,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMemberClicked(View view) {
-        name3Field.setVisibility(View.VISIBLE);
-        entry3Field.setVisibility(View.VISIBLE);
-        removeMemberButton.setVisibility(View.VISIBLE);
-        //addMemberButton.setVisibility(View.GONE);
-        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.add3rd));
-        noOfMembers = 3;
-    }
 
-    public void removeMemberClicked(View view) {
-        name3Field.setVisibility(View.GONE);
-        entry3Field.setVisibility(View.GONE);
-        removeMemberButton.setVisibility(View.GONE);
-        addMemberButton.setVisibility(View.VISIBLE);
-        noOfMembers = 2;
-        name3Field.setText("");
-        entry3Field.setText("");
-        name3Field.setError(null);
-        entry3Field.setError(null);
+        //addMemberButton.setVisibility(View.GONE);
+        if (isTwoMem) {
+            name3Field.setVisibility(View.VISIBLE);
+            entry3Field.setVisibility(View.VISIBLE);
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 200);
+            objectAnimatorButton.setDuration(500);
+            objectAnimatorButton.start();
+            addMemberButton.setText("-");
+            noOfMembers = 3;
+        }
+        else {
+            entry3Field.setVisibility(View.GONE);
+            name3Field.setVisibility(View.GONE);
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 200);
+            objectAnimatorButton.setDuration(500);
+            objectAnimatorButton.start();
+            addMemberButton.setText("+");
+            noOfMembers = 2;
+        }
+        isTwoMem = !isTwoMem;
     }
 
     public void clearButtonClicked(View view) {
@@ -420,4 +419,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

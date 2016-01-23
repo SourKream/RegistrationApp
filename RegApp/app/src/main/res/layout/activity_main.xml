@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg3"
-    tools:context="io.github.suragnair.regapp.MainActivity">
+    tools:context="io.github.suragnair.regapp.MainActivity"
+    android:id="@+id/rootLayout">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -100,28 +101,6 @@
         android:text=""
         android:visibility="gone"/>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/removeThirdMemberButton"
-        android:layout_alignBottom="@+id/entry3Field"
-        android:layout_toEndOf="@+id/name3Field"
-        android:visibility="gone"
-        android:onClick="removeMemberClicked"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Member"
-        android:id="@+id/addThirdMemberButton"
-        android:layout_below="@+id/entry2Field"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:visibility="visible"
-        android:onClick="addMemberClicked"/>
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,6 +129,19 @@
         android:layout_alignEnd="@+id/name3Field"
         android:layout_alignStart="@+id/name3Field"
         android:visibility="gone"/>
+
+    <Button
+        android:text="+"
+        android:textSize="32dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/addThirdMemberButton"
+        android:visibility="visible"
+        android:onClick="addMemberClicked"
+        android:background = "@drawable/round_button"
+        android:layout_below="@+id/entry2Field"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="wrap_content"
