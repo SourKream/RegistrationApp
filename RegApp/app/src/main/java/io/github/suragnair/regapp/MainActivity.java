@@ -7,12 +7,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.util.DisplayMetrics;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -67,9 +70,12 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private Button submitButton;
     private Button addMemberButton;
-    private Button removeMemberButton;
     private int noOfMembers = 2;
     private Set<String> allDepts;
+
+    private boolean isTwoMem = true;
+
+    int screen_height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         //Linking Buttons
         submitButton = (Button) findViewById(R.id.submitButton);
         addMemberButton = (Button) findViewById(R.id.addThirdMemberButton);
-        removeMemberButton = (Button) findViewById(R.id.removeThirdMemberButton);
         spinner = (ProgressBar)findViewById(R.id.loadingIcon);
 
         //Initialising ListViews
@@ -112,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         //Load EntryNO Database
         loadEntryNoDataFromTextFile();
         loadDeptsList();
+
+        //Get screen height
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screen_height = metrics.heightPixels;
     }
 
     public void submitButtonClicked(View view)
@@ -294,23 +304,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMemberClicked(View view) {
-        name3Field.setVisibility(View.VISIBLE);
-        entry3Field.setVisibility(View.VISIBLE);
-        removeMemberButton.setVisibility(View.VISIBLE);
-        addMemberButton.setVisibility(View.GONE);
-        noOfMembers = 3;
-    }
 
-    public void removeMemberClicked(View view) {
-        name3Field.setVisibility(View.GONE);
-        entry3Field.setVisibility(View.GONE);
-        removeMemberButton.setVisibility(View.GONE);
-        addMemberButton.setVisibility(View.VISIBLE);
-        noOfMembers = 2;
-        name3Field.setText("");
-        entry3Field.setText("");
-        name3Field.setError(null);
-        entry3Field.setError(null);
+        if (isTwoMem) {
+            name3Field.setVisibility(View.VISIBLE);
+            entry3Field.setVisibility(View.VISIBLE);
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, screen_height/7);
+            objectAnimatorButton.setDuration(300).start();
+            ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 0f, 1f);
+            fadeAnim1.setDuration(500).start();
+            ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 0f, 1f);
+            fadeAnim2.setDuration(500).start();
+            addMemberButton.setText("-");
+            noOfMembers = 3;
+        }
+        else {
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", screen_height/7, 0);
+            objectAnimatorButton.setDuration(300).start();
+            ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 1f, 0f);
+            fadeAnim1.setDuration(500).start();
+            ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 1f, 0f);
+            fadeAnim2.setDuration(500).start();
+            fadeAnim1.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    entry3Field.setVisibility(View.GONE);
+                    name3Field.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    entry3Field.setVisibility(View.GONE);
+                    name3Field.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
+            });
+
+            addMemberButton.setText("+");
+            noOfMembers = 2;
+        }
+        isTwoMem = !isTwoMem;
     }
 
     public void clearButtonClicked(View view) {
@@ -345,8 +384,11 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     nameSuggestionsListView.setVisibility(View.VISIBLE);
+                    if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
+                    nameSuggestionsListView.bringToFront();
                 } else {
                     nameSuggestionsListView.setVisibility(View.GONE);
+                    addMemberButton.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -364,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                 if (s.length() > 2)
                     nameSuggestionsList.addAll(suggestStudents(s.toString()));
                 nameSuggestionsListAdapter.notifyDataSetChanged();
+                if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
             }
 
             @Override
@@ -380,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
                 entryField.setText(StudentEntrynoList.get(StudentNameList.indexOf(nameSuggestionsList.get(position))));
                 nameField.setText(nameSuggestionsList.get(position));
                 entryField.setError(null);
+                addMemberButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -426,4 +470,5 @@ public class MainActivity extends AppCompatActivity {
         allDepts.add("CSZ");
         allDepts.add("MCS");
     }
+
 }
