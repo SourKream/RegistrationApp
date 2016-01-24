@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addMemberButton;
     private Button removeMemberButton;
     private int noOfMembers = 2;
+    private Set<String> allDepts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Load EntryNO Database
         loadEntryNoDataFromTextFile();
+        loadDeptsList();
     }
 
     public void submitButtonClicked(View view)
@@ -260,30 +262,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        if ((year>2015)||(year<2000))
-            return false;
-
-        Set<String> allDepts = new HashSet<>();
-        allDepts.add("BB1");
-        allDepts.add("BB5");
-        allDepts.add("CH1");
-        allDepts.add("CH7");
-        allDepts.add("CS1");
-        allDepts.add("CS5");
-        allDepts.add("CE1");
-        allDepts.add("EE1");
-        allDepts.add("EE3");
-        allDepts.add("ME1");
-        allDepts.add("ME2");
-        allDepts.add("PH1");
-        allDepts.add("MT1");
-        allDepts.add("MT5");
-        allDepts.add("MT6");
-        allDepts.add("TT1");
-        allDepts.add("CSZ");
-        allDepts.add("MCS");
-
-        return allDepts.contains(dept)&&((serialNo>0)&&(serialNo<10000));
+        return ((year>=2000)&&(year<=2015)) && allDepts.contains(dept) && ((serialNo>0)&&(serialNo<10000));
     }
 
     private void loadEntryNoDataFromTextFile() {
@@ -298,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 StudentNameList.add(line.substring(11, line.length()).trim());
             }
         } catch (IOException e) {
-            Log.d("IOException","loadEntryNoDataFromTextFile: " + e.getMessage());
+            Log.d("IOException", "loadEntryNoDataFromTextFile: " + e.getMessage());
         }
     }
 
@@ -424,5 +403,27 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.setNeutralButton("OKAY", null);
         builder.show();
+    }
+
+    private void loadDeptsList(){
+        allDepts = new HashSet<>();
+        allDepts.add("BB1");
+        allDepts.add("BB5");
+        allDepts.add("CH1");
+        allDepts.add("CH7");
+        allDepts.add("CS1");
+        allDepts.add("CS5");
+        allDepts.add("CE1");
+        allDepts.add("EE1");
+        allDepts.add("EE3");
+        allDepts.add("ME1");
+        allDepts.add("ME2");
+        allDepts.add("PH1");
+        allDepts.add("MT1");
+        allDepts.add("MT5");
+        allDepts.add("MT6");
+        allDepts.add("TT1");
+        allDepts.add("CSZ");
+        allDepts.add("MCS");
     }
 }
