@@ -332,12 +332,20 @@ public class MainActivity extends AppCompatActivity {
                 public void onAnimationEnd(Animator animation) {
                     entry3Field.setVisibility(View.GONE);
                     name3Field.setVisibility(View.GONE);
+                    name3Field.setText("");
+                    entry3Field.setText("");
+                    name3Field.setError(null);
+                    entry3Field.setError(null);
                 }
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     entry3Field.setVisibility(View.GONE);
                     name3Field.setVisibility(View.GONE);
+                    name3Field.setText("");
+                    entry3Field.setText("");
+                    name3Field.setError(null);
+                    entry3Field.setError(null);
                 }
 
                 @Override
@@ -383,8 +391,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     nameSuggestionsListView.setVisibility(View.VISIBLE);
-                    if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
-                    nameSuggestionsListView.bringToFront();
+                    if (!nameSuggestionsList.isEmpty())
+                        addMemberButton.setVisibility(View.GONE);
                 } else {
                     nameSuggestionsListView.setVisibility(View.GONE);
                     addMemberButton.setVisibility(View.VISIBLE);
@@ -405,8 +413,10 @@ public class MainActivity extends AppCompatActivity {
                 if (s.length() > 2)
                     nameSuggestionsList.addAll(suggestStudents(s.toString()));
                 nameSuggestionsListAdapter.notifyDataSetChanged();
-                if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
-                else addMemberButton.setVisibility(View.VISIBLE);
+                if (!nameSuggestionsList.isEmpty())
+                    addMemberButton.setVisibility(View.GONE);
+                else
+                    addMemberButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -435,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
                     String entryNo = entryField.getText().toString();
                     if (isValidEntryNo(entryNo) && StudentEntrynoList.contains(entryNo.toUpperCase()) && nameField.getText().toString().equals("")) {
                         nameField.setText(StudentNameList.get(StudentEntrynoList.indexOf(entryNo.toUpperCase())));
+                        addMemberButton.setVisibility(View.VISIBLE);
                     }
                 }
             }
