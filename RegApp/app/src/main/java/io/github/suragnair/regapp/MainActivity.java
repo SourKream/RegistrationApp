@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private Set<String> allDepts;
 
     private boolean isTwoMem = true;
-
     int screen_height;
 
     @Override
@@ -407,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     nameSuggestionsList.addAll(suggestStudents(s.toString()));
                 nameSuggestionsListAdapter.notifyDataSetChanged();
                 if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
+                else addMemberButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -433,8 +433,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String entryNo = entryField.getText().toString();
-                    if (isValidEntryNo(entryNo) && StudentEntrynoList.contains(entryNo.toLowerCase()) && nameField.getText().toString().equals("")) {
-                        nameField.setText(StudentNameList.get(StudentEntrynoList.indexOf(entryNo.toLowerCase())));
+                    if (isValidEntryNo(entryNo) && StudentEntrynoList.contains(entryNo.toUpperCase()) && nameField.getText().toString().equals("")) {
+                        nameField.setText(StudentNameList.get(StudentEntrynoList.indexOf(entryNo.toUpperCase())));
                     }
                 }
             }
