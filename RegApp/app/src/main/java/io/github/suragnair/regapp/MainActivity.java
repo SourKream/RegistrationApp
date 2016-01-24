@@ -1,11 +1,11 @@
 package io.github.suragnair.regapp;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             entry2Field.setError("Invalid Entry No");
             ERROR_FLAG = true;
         }
-        if(entry2.equals(entry1))
+        if((!entry2.equals(""))&&(entry2.equals(entry1)))
         {
             entry2Field.setError("Repeated Entry No");
             ERROR_FLAG = true;
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 entry3Field.setError("Invalid Entry No");
                 ERROR_FLAG = true;
             }
-            if((entry3.equals(entry1))||(entry3.equals(entry2)))
+            if((!entry3.equals(""))&&((entry3.equals(entry1))||(entry3.equals(entry2))))
             {
                 entry3Field.setError("Repeated Entry No");
                 ERROR_FLAG = true;
@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         spinner.setVisibility(View.GONE);
                         submitButton.setClickable(true);
+                        alertMessageBox("Error Response From Server", error.getMessage());
                     }
                 }) {
 
@@ -220,35 +221,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void responseReceived(String response)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        JSONObject jsonResponse = null;
-        boolean RESPONSE_SUCCESS = false;
+        boolean REGISTRATION_SUCCESS = false;
 
         try {
-            jsonResponse = new JSONObject(response);
+            JSONObject jsonResponse = new JSONObject(response);
             if (jsonResponse.getString("RESPONSE_MESSAGE").equals("Data not posted!"))
-                builder.setTitle("Oops!").setMessage("Something Went Wrong. Data not posted.");
+                alertMessageBox("Oops!","Something Went Wrong. Data not posted.");
             else if (jsonResponse.getString("RESPONSE_MESSAGE").equals("Registration completed")) {
-                builder.setTitle("Congratulations").setMessage("Welcome to the course. Your team has been registered.");
-                RESPONSE_SUCCESS = true;
+                alertMessageBox("Congratulations","Welcome to the course. Your team has been registered.");
+                REGISTRATION_SUCCESS = true;
             }
             else if (jsonResponse.getString("RESPONSE_MESSAGE").equals("User already registered"))
-                builder.setTitle("Well That's Embarrassing!").setMessage("One or more member of your team is already registered.");
+                alertMessageBox("Well That's Embarrassing!","One or more member(s) of your team is already registered.");
             else
-                builder.setTitle("Unaccounted Response:").setMessage(response);
+                alertMessageBox("Unaccounted Response", response);
         } catch (JSONException e) {
-            builder.setTitle("Server Gone Crazy").setMessage("Unexpected Response. Data received is not JSON.");
+            Log.d("JSON Exception", e.getMessage());
+            alertMessageBox("Unexpected Response From Server", "JSON Exception : " + e.getMessage());
         }
 
-        builder.setNeutralButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        if (RESPONSE_SUCCESS)
+        if (REGISTRATION_SUCCESS)
             clearButtonClicked(null);
     }
 
@@ -264,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             year = Integer.parseInt(entryNo.substring(0, 4));
             serialNo = Integer.parseInt((entryNo.substring(7, 11)));
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException e) {
             return false;
         }
 
@@ -296,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadEntryNoDataFromTextFile() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getBaseContext().getResources().openRawResource(R.raw.entrydata)));
-        String line = null;
+        String line;
         try {
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.trim();
@@ -306,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 StudentNameList.add(line.substring(11, line.length()).trim());
             }
         } catch (IOException e) {
-
+            Log.d("IOException","loadEntryNoDataFromTextFile: " + e.getMessage());
         }
     }
 
@@ -316,6 +308,8 @@ public class MainActivity extends AppCompatActivity {
         for (String name : StudentNameList){
             if(name.toLowerCase().contains(partString.toLowerCase()))
                 suggestions.add(name);
+            if(suggestions.size()==3)
+                break;
         }
         return suggestions;
     }
@@ -388,11 +382,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 nameSuggestionsList.clear();
-                if (s.length() > 2) {
+                if (s.length() > 2)
                     nameSuggestionsList.addAll(suggestStudents(s.toString()));
-                    while (nameSuggestionsList.size() > 3)
-                        nameSuggestionsList.remove(nameSuggestionsList.size() - 1);
-                }
                 nameSuggestionsListAdapter.notifyDataSetChanged();
             }
 
@@ -417,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
         entryField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus) {
+                if (!hasFocus) {
                     String entryNo = entryField.getText().toString();
                     if (isValidEntryNo(entryNo) && StudentEntrynoList.contains(entryNo.toLowerCase()) && nameField.getText().toString().equals("")) {
                         nameField.setText(StudentNameList.get(StudentEntrynoList.indexOf(entryNo.toLowerCase())));
@@ -425,5 +416,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void alertMessageBox (String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setNeutralButton("OKAY", null);
+        builder.show();
     }
 }
