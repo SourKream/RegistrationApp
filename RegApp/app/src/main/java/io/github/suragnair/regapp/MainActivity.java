@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.util.DisplayMetrics;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isTwoMem = true;
 
+    int screen_height;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         //Load EntryNO Database
         loadEntryNoDataFromTextFile();
 
+        //Get screen height
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screen_height = metrics.heightPixels;
     }
 
     public void submitButtonClicked(View view)
@@ -328,26 +335,26 @@ public class MainActivity extends AppCompatActivity {
         if (isTwoMem) {
             name3Field.setVisibility(View.VISIBLE);
             entry3Field.setVisibility(View.VISIBLE);
-            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, 250);
-            objectAnimatorButton.setDuration(500).start();
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 0, screen_height/7);
+            objectAnimatorButton.setDuration(300).start();
             ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 0f, 1f);
-            fadeAnim1.setDuration(1000).start();
+            fadeAnim1.setDuration(500).start();
             ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 0f, 1f);
-            fadeAnim2.setDuration(1000).start();
-
+            fadeAnim2.setDuration(500).start();
             addMemberButton.setText("-");
             noOfMembers = 3;
         }
         else {
-            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", 250, 0);
-            objectAnimatorButton.setDuration(500).start();
+            ObjectAnimator objectAnimatorButton = ObjectAnimator.ofFloat(view, "translationY", screen_height/7, 0);
+            objectAnimatorButton.setDuration(300).start();
             ObjectAnimator fadeAnim1 = ObjectAnimator.ofFloat(name3Field, "alpha", 1f, 0f);
-            fadeAnim1.setDuration(1000).start();
+            fadeAnim1.setDuration(500).start();
             ObjectAnimator fadeAnim2 = ObjectAnimator.ofFloat(entry3Field, "alpha", 1f, 0f);
-            fadeAnim2.setDuration(1000).start();
+            fadeAnim2.setDuration(500).start();
             fadeAnim1.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {}
+                public void onAnimationStart(Animator animation) {
+                }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -356,10 +363,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {}
+                public void onAnimationCancel(Animator animation) {
+                    entry3Field.setVisibility(View.GONE);
+                    name3Field.setVisibility(View.GONE);
+                }
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {}
+                public void onAnimationRepeat(Animator animation) {
+                }
             });
 
             addMemberButton.setText("+");
@@ -400,8 +411,11 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     nameSuggestionsListView.setVisibility(View.VISIBLE);
+                    if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
+                    nameSuggestionsListView.bringToFront();
                 } else {
                     nameSuggestionsListView.setVisibility(View.GONE);
+                    addMemberButton.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -422,6 +436,7 @@ public class MainActivity extends AppCompatActivity {
                         nameSuggestionsList.remove(nameSuggestionsList.size() - 1);
                 }
                 nameSuggestionsListAdapter.notifyDataSetChanged();
+                if (!nameSuggestionsList.isEmpty()) addMemberButton.setVisibility(View.GONE);
             }
 
             @Override
@@ -438,6 +453,7 @@ public class MainActivity extends AppCompatActivity {
                 entryField.setText(StudentEntrynoList.get(StudentNameList.indexOf(nameSuggestionsList.get(position))));
                 nameField.setText(nameSuggestionsList.get(position));
                 entryField.setError(null);
+                addMemberButton.setVisibility(View.VISIBLE);
             }
         });
     }

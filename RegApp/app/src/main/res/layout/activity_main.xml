@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg3"
+    android:background="@drawable/bg2"
     tools:context="io.github.suragnair.regapp.MainActivity"
     android:id="@+id/rootLayout">
 
@@ -23,7 +23,7 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="40dp"
         android:textColor="#FFFFFF" />
 
     <EditText
@@ -131,40 +131,44 @@
         android:visibility="gone"/>
 
     <Button
-        android:text="+"
-        android:textSize="32dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:background = "@drawable/round_button"
         android:id="@+id/addThirdMemberButton"
+        android:gravity = "center_vertical|center_horizontal"
         android:visibility="visible"
         android:onClick="addMemberClicked"
-        android:background = "@drawable/round_button"
+        android:text="+"
+        android:textSize="30dp"
         android:layout_below="@+id/entry2Field"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:id="@+id/LinearLayout02">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
+        android:id="@+id/clearButton"
+        android:onClick="clearButtonClicked"
+        android:background = "@drawable/square_button"
+        android:textColor="#FFFFFF"
+        android:layout_weight="1"
+        android:text="@string/clear"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background = "@drawable/square_button"
         android:id="@+id/submitButton"
         android:onClick="submitButtonClicked"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/entry2Field"
-        android:layout_marginBottom="44dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:id="@+id/clearButton"
-        android:layout_alignTop="@+id/submitButton"
-        android:layout_alignStart="@+id/entry2Field"
-        android:onClick="clearButtonClicked"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_weight="1"
+        android:text="@string/submit"/>
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/loadingIcon"
