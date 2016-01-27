@@ -40,6 +40,6 @@ The main objective of the app is to provide a platform to the students of COP290
   *  'Invalid Entry Number' error: This error is flagged if the entered Entry Number is not valid. The entry number should be of standard IITD format (YEAR + DEPT CODE + SERIAL NO). It accepts all department codes and years from 2000 up to 2015.
   * 'Repeated Entry Number' error:  This error is flagged if the user enters the same entry number for two or more of its team members.
 
-- After successful validity checks on the entered data, the app sends an HTTP POST Request to the server along with the necessary parameters, using the (Android Volley library)[http://developer.android.com/training/volley/index.html]. In case of a successful request, a JSON response is received from the server which is parsed an appropriate message is displayed in an Alert Dialog Box.
+- After successful validity checks on the entered data, the app sends an HTTP POST Request to the server along with the necessary parameters, using the [Android Volley library](http://developer.android.com/training/volley/index.html). In case of a successful request, a JSON response is received from the server which is parsed an appropriate message is displayed in an Alert Dialog Box.
 
 - To implement the auto-fill drop down list for names, a database containing student name and entry number information is loaded from a text file. The information has been downloaded from the course mailing list. 
