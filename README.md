@@ -12,8 +12,10 @@ The main objective of the app is to provide a platform to the students of COP290
 
 - The app has a single activity (MainActivity) which is invoked when the app is started. The layout has five (plus two hidden) text-fields for entering the team details i.e. the teamname along with the name and entry number of all members. The two hidden text-fields are controlled using a button to toggle the team size between 2 and 3. The text-boxes on the main screen have hints displayed on them indicating what the field is meant for. These disappears on adding text to the text-box. If the user leaves any field empty or enters invalid information then on submitting an error is displayed over the text field.
 
-![Alt text](/ReadMe Assets/Screenshot1.jpg?raw=true)
-![Alt text](/ReadMe Assets/Screenshot2.jpg?raw=true)
+<p align="center">
+<img src="/ReadMe Assets/Screenshot1.png" width="300">
+<img src="/ReadMe Assets/Screenshot2.png" width="300">
+</p>
 
 - The Main Activity has four buttons namely 'Submit', 'Add Member', 'Remove Member' and 'Clear'. The basic functionality of each button is as follows :
 
@@ -26,8 +28,10 @@ The main objective of the app is to provide a platform to the students of COP290
 
 - We have added animation to '+' button which scrolls down setting the third member text-fields visible. Similarly, '-' button scrolls up on tapping removing the third member text-fields with it.
 
-![Alt text](/ReadMe Assets/Screenshot3.jpg?raw=true)
-![Alt text](/ReadMe Assets/Screenshot4.jpg?raw=true)
+<p align="center">
+<img src="/ReadMe Assets/Screenshot3.png" width="300">
+<img src="/ReadMe Assets/Screenshot4.png" width="300">
+</p>
 
 ## Implementation Details
 
